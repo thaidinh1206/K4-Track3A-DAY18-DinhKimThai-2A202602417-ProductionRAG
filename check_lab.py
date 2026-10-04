@@ -60,9 +60,14 @@ def run_tests() -> tuple[int, int]:
     """Run pytest and return (passed, total)."""
     try:
         import re
+        py_exec = sys.executable
+        for candidate in [".venv/Scripts/python.exe", ".venv/bin/python", "venv/Scripts/python.exe", "venv/bin/python"]:
+            if os.path.exists(candidate):
+                py_exec = os.path.abspath(candidate)
+                break
         result = subprocess.run(
-            [sys.executable, "-m", "pytest", "tests/", "-v", "--tb=no", "-q"],
-            capture_output=True, text=True, timeout=120, encoding="utf-8", errors="replace"
+            [py_exec, "-m", "pytest", "tests/", "-v", "--tb=no", "-q"],
+            capture_output=True, text=True, timeout=300, encoding="utf-8", errors="replace"
         )
         lines = result.stdout.strip().split("\n")
         summary = lines[-1] if lines else ""

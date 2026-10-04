@@ -4,5 +4,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 qdrant_data/
+.cache/flashrank/
 *.egg-info/
 CODELAB.md
+.venv/
