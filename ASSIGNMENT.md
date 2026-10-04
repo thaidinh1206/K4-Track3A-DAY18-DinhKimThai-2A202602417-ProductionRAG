@@ -147,10 +147,10 @@ python src/pipeline.py
 
 | Metric | Naive Baseline | Production | Δ |
 |--------|---------------|-----------|---|
-| Faithfulness | ? | ? | ? |
-| Answer Relevancy | ? | ? | ? |
-| Context Precision | ? | ? | ? |
-| Context Recall | ? | ? | ? |
+| Faithfulness | 0.8389 | 0.9455 | +0.1066 |
+| Answer Relevancy | 0.6550 | 0.7185 | +0.0635 |
+| Context Precision | 0.9250 | 0.9271 | +0.0021 |
+| Context Recall | 0.9250 | 0.8095 | -0.1155 |
 
 Mở `reports/ragas_report.json` → tìm bottom-5 worst questions → điền `analysis/failure_analysis.md`.
 
