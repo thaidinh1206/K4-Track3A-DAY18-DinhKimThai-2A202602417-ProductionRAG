@@ -1,0 +1,47 @@
+{
+  "aggregate": {
+    "faithfulness": 1.0,
+    "answer_relevancy": 0.9971694018271008,
+    "context_precision": 0.9999999999,
+    "context_recall": 1.0
+  },
+  "num_questions": 1,
+  "failures": [
+    {
+      "question": "Nhân viên chính thức có bao nhiêu ngày phép năm?",
+      "answer": "Nhân viên chính thức có 15 ngày phép năm.",
+      "ground_truth": "15 ngày làm việc mỗi năm.",
+      "contexts": [
+        "Nhân viên chính thức được nghỉ phép năm 15 ngày làm việc mỗi năm."
+      ],
+      "worst_metric": "answer_relevancy",
+      "worst_score": 0.9971694018271008,
+      "score": 0.9992923504317752,
+      "diagnosis": "Weakest relative metric: answer_relevancy; all metrics meet 0.70, so no low-score failure detected",
+      "suggested_fix": "Review this case only if manual inspection or repeated evaluations reveal an issue",
+      "error_tree": "Các metric đều ≥ 0.70 → Kiểm tra thủ công trước khi kết luận có lỗi"
+    }
+  ],
+  "per_question": [
+    {
+      "question": "Nhân viên chính thức có bao nhiêu ngày phép năm?",
+      "answer": "Nhân viên chính thức có 15 ngày phép năm.",
+      "contexts": [
+        "Nhân viên chính thức được nghỉ phép năm 15 ngày làm việc mỗi năm."
+      ],
+      "ground_truth": "15 ngày làm việc mỗi năm.",
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9971694018271008,
+      "context_precision": 0.9999999999,
+      "context_recall": 1.0,
+      "evaluation_errors": []
+    }
+  ],
+  "evaluation": {
+    "status": "ok",
+    "invalid_metrics": [],
+    "num_requested": 1,
+    "provider": "openrouter",
+    "model": "openai/gpt-4o-mini"
+  }
+}

@@ -15,7 +15,7 @@ from src.m2_search import HybridSearch
 from src.m3_rerank import CrossEncoderReranker
 from src.m4_eval import load_test_set, evaluate_ragas, failure_analysis, save_report
 from src.m5_enrichment import enrich_chunks
-from config import RERANK_TOP_K
+from config import RERANK_TOP_K, LLM_API_KEY, LLM_MODEL, create_llm_client
 
 
 def build_pipeline():
@@ -68,13 +68,11 @@ def run_query(query: str, search: HybridSearch, reranker: CrossEncoderReranker) 
     reranked = reranker.rerank(query, docs, top_k=RERANK_TOP_K)
     contexts = [r.text for r in reranked] if reranked else [r.text for r in results[:3]]
 
-    from config import OPENAI_API_KEY
-    if OPENAI_API_KEY and contexts:
+    if LLM_API_KEY and contexts:
         try:
-            from openai import OpenAI
-            client = OpenAI()
+            client = create_llm_client()
             context_str = "\n\n".join(contexts)
-            resp = client.chat.completions.create(model="gpt-4o-mini", messages=[
+            resp = client.chat.completions.create(model=LLM_MODEL, temperature=0, messages=[
                 {"role": "system", "content": "Trả lời CHỈ dựa trên context. Nếu không có → nói 'Không tìm thấy.'"},
                 {"role": "user", "content": f"Context:\n{context_str}\n\nCâu hỏi: {query}"},
             ])
@@ -113,7 +111,8 @@ def evaluate_pipeline(search: HybridSearch, reranker: CrossEncoderReranker):
         s = results.get(m, 0)
         print(f"  {'✓' if s >= 0.75 else '✗'} {m}: {s:.4f}")
 
-    failures = failure_analysis(results.get("per_question", []))
+    print(f"  Evaluation status: {results.get('status', 'unknown')}", flush=True)
+    failures = failure_analysis(results.get("per_question", []), bottom_n=5)
     save_report(results, failures)
     return results
 
